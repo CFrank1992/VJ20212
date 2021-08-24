@@ -322,6 +322,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3149454467613113509, guid: a8d01797b6889b6488316f41612f5fa1, type: 3}
+      propertyPath: velocityX
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 7923043828568791202, guid: a8d01797b6889b6488316f41612f5fa1, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.35
@@ -364,6 +368,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7923043828568791202, guid: a8d01797b6889b6488316f41612f5fa1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7923043828568791213, guid: a8d01797b6889b6488316f41612f5fa1, type: 3}
+      propertyPath: m_FlipX
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7923043828568791215, guid: a8d01797b6889b6488316f41612f5fa1, type: 3}
