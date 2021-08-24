@@ -4,11 +4,23 @@ using UnityEngine;
 
 public class SantaClausController : MonoBehaviour
 {
-    // Start is called before the first frame update
+    // public properties
+    public float velocityX = 5;
+
+    // private properties
+    private SpriteRenderer sr;
     private Rigidbody2D rb;
     private Animator animator;
+    
+    // constants
+    private const int ANIMATION_IDLE = 0;
+    private const int ANIMATION_RUN = 1;
+    
+    // Start is called before the first frame update
     void Start()
     {
+        Debug.Log("Iniciando Game Object");
+        sr = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
     }
@@ -16,15 +28,25 @@ public class SantaClausController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.Space))
+        rb.velocity = new Vector2(0, rb.velocity.y);
+        changeAnimation(ANIMATION_IDLE);
+
+        if (Input.GetKey(KeyCode.RightArrow))
         {
-            rb.velocity = new Vector2(10, 0);
-            animator.SetInteger("Estado", 1);
+            rb.velocity = Vector2.right * velocityX;
+            sr.flipX = false;
+            changeAnimation(ANIMATION_RUN);
         }
-        
-        if (Input.GetKeyDown(KeyCode.X))
+        if (Input.GetKey(KeyCode.LeftArrow))
         {
-            animator.SetInteger("Estado", 0);
+            rb.velocity = Vector2.right * -velocityX;
+            sr.flipX = true;
+            changeAnimation(ANIMATION_RUN);
         }
+    }
+
+    private void changeAnimation(int animation)
+    {
+        animator.SetInteger("Estado", animation);
     }
 }
