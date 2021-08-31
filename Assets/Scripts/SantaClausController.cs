@@ -21,6 +21,8 @@ public class SantaClausController : MonoBehaviour
     private const int ANIMATION_RUN = 1;
     private const int ANIMATION_SLIDE= 2;
     private const int ANIMATION_JUMP= 3;
+
+    private const int LAYER_GROUND = 10;
     
     // Start is called before the first frame update
     void Start()
@@ -62,6 +64,21 @@ public class SantaClausController : MonoBehaviour
             changeAnimation(ANIMATION_JUMP); // saltar
         }
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer == LAYER_GROUND && collision.gameObject.tag == "Ground")
+        {
+            Debug.Log("Collision: " + collision.gameObject.name);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+       Debug.Log("Trigger:" + this.name);
+    }
+
+
     private void changeAnimation(int animation)
     {
         animator.SetInteger("Estado", animation);
