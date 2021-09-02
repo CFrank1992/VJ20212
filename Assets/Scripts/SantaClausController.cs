@@ -14,7 +14,10 @@ public class SantaClausController : MonoBehaviour
     private Rigidbody2D rb;
     private Animator animator;
     
+    
     // private properties
+    private bool isIntangible = false;
+    private float intangibleTime = 0f;
     
     // constants
     private const int ANIMATION_IDLE = 0;
@@ -23,6 +26,8 @@ public class SantaClausController : MonoBehaviour
     private const int ANIMATION_JUMP= 3;
 
     private const int LAYER_GROUND = 10;
+
+    private const string TAG_ENEMY = "Enemy";
     
     // Start is called before the first frame update
     void Start()
@@ -36,6 +41,8 @@ public class SantaClausController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
+        
         rb.velocity = new Vector2(0, rb.velocity.y);
         changeAnimation(ANIMATION_IDLE); 
         
@@ -63,6 +70,19 @@ public class SantaClausController : MonoBehaviour
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse); // salta
             changeAnimation(ANIMATION_JUMP); // saltar
         }
+
+        if (isIntangible && intangibleTime < 2f)
+        {
+            intangibleTime += Time.deltaTime;
+            sr.enabled = !sr.enabled;
+        }
+        else if(isIntangible && intangibleTime >= 2f)
+        {
+            isIntangible = false;
+            sr.enabled = true;
+            intangibleTime = 0f;
+            // Physics2D.IgnoreCollision(collision.collider, GetComponent<Collider2D>(), false);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -70,6 +90,19 @@ public class SantaClausController : MonoBehaviour
         if (collision.gameObject.layer == LAYER_GROUND && collision.gameObject.tag == "Ground")
         {
             Debug.Log("Collision: " + collision.gameObject.name);
+        }
+
+        if (collision.gameObject.CompareTag(TAG_ENEMY))
+        {
+            transform.localScale = new Vector3(0.3f, 0.3f, 1);
+            isIntangible = true;
+            // Physics2D.IgnoreCollision(collision.collider, GetComponent<Collider2D>(), true);
+        }
+
+        if (collision.gameObject.name == "Vida")
+        {
+            transform.localScale = new Vector3(0.7f, 0.7f, 1);
+            Destroy(collision.gameObject);
         }
     }
 
