@@ -9,6 +9,9 @@ public class SantaClausController : MonoBehaviour
     public float velocityX = 15;
     public float jumpForce = 40;
 
+    public GameObject rightBullet;
+    public GameObject leftBullet;
+
     // private components
     private SpriteRenderer sr;
     private Rigidbody2D rb;
@@ -27,7 +30,7 @@ public class SantaClausController : MonoBehaviour
 
     private const int LAYER_GROUND = 10;
 
-    private const string TAG_ENEMY = "Enemy";
+    // private const string TAG_ENEMY = "Enemy";
     
     // Start is called before the first frame update
     void Start()
@@ -41,10 +44,8 @@ public class SantaClausController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        
         rb.velocity = new Vector2(0, rb.velocity.y);
-        changeAnimation(ANIMATION_IDLE); 
+        changeAnimation(ANIMATION_IDLE);
         
         if (Input.GetKey(KeyCode.RightArrow))
         {
@@ -58,6 +59,14 @@ public class SantaClausController : MonoBehaviour
             rb.velocity = new Vector2(-velocityX, rb.velocity.y);
             sr.flipX = true;
             changeAnimation(ANIMATION_RUN);
+        }
+
+        if (Input.GetKeyUp(KeyCode.C))
+        {
+            var bullet = sr.flipX ? leftBullet : rightBullet;
+            var position = new Vector2(transform.position.x, transform.position.y);
+            var rotation = rightBullet.transform.rotation;
+            Instantiate(bullet, position, rotation);
         }
         
         if (Input.GetKey(KeyCode.X))
@@ -92,12 +101,12 @@ public class SantaClausController : MonoBehaviour
             Debug.Log("Collision: " + collision.gameObject.name);
         }
 
-        if (collision.gameObject.CompareTag(TAG_ENEMY))
-        {
-            transform.localScale = new Vector3(0.3f, 0.3f, 1);
-            isIntangible = true;
-            // Physics2D.IgnoreCollision(collision.collider, GetComponent<Collider2D>(), true);
-        }
+        // if (collision.gameObject.CompareTag(TAG_ENEMY))
+        // {
+        //     transform.localScale = new Vector3(0.3f, 0.3f, 1);
+        //     isIntangible = true;
+        //     // Physics2D.IgnoreCollision(collision.collider, GetComponent<Collider2D>(), true);
+        // }
 
         if (collision.gameObject.name == "Vida")
         {
