@@ -12,10 +12,13 @@ public class SantaClausController : MonoBehaviour
     public GameObject rightBullet;
     public GameObject leftBullet;
 
+    
+
     // private components
     private SpriteRenderer sr;
     private Rigidbody2D rb;
     private Animator animator;
+    private GameController game;
     
     
     // private properties
@@ -30,7 +33,8 @@ public class SantaClausController : MonoBehaviour
 
     private const int LAYER_GROUND = 10;
 
-    // private const string TAG_ENEMY = "Enemy";
+    private const string TAG_ENEMY = "Enemy";
+
     
     // Start is called before the first frame update
     void Start()
@@ -39,6 +43,7 @@ public class SantaClausController : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        game = FindObjectOfType<GameController>();
     }
 
     // Update is called once per frame
@@ -96,17 +101,18 @@ public class SantaClausController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.layer == LAYER_GROUND && collision.gameObject.tag == "Ground")
+        if (collision.gameObject.layer == LAYER_GROUND && collision.gameObject.CompareTag("Ground"))
         {
             Debug.Log("Collision: " + collision.gameObject.name);
         }
 
-        // if (collision.gameObject.CompareTag(TAG_ENEMY))
-        // {
-        //     transform.localScale = new Vector3(0.3f, 0.3f, 1);
-        //     isIntangible = true;
-        //     // Physics2D.IgnoreCollision(collision.collider, GetComponent<Collider2D>(), true);
-        // }
+        if (collision.gameObject.CompareTag(TAG_ENEMY) && !isIntangible)
+        {
+            transform.localScale = new Vector3(0.3f, 0.3f, 1);
+            isIntangible = true;
+            game.LoseLife();
+            // Physics2D.IgnoreCollision(collision.collider, GetComponent<Collider2D>(), true);
+        }
 
         if (collision.gameObject.name == "Vida")
         {

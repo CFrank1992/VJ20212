@@ -1,19 +1,54 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public Text scoreText;
+    public Text lifesText;
+    
     private int _score = 0;
+    private int _lifes = 5;
+
+    private void Start()
+    {
+        scoreText.text = "Score: " + _score;
+        PrintLifes();
+    }
+
 
     public int GetScore()
     {
-        return this._score;
+        return _score;
     }
 
     public void PlusScore(int score)
     {
-        this._score += score;
+        _score += score;
+        scoreText.text = "Score: " + _score;
+    }
+
+    public void LoseLife()
+    {
+        _lifes -= 1;
+        PrintLifes();
+    }
+
+    public int GetLifes()
+    {
+        return _lifes;
+    }
+
+    private void PrintLifes()
+    {
+        var text = "Lives: ";
+        for (var i = 0; i < _lifes; i++)
+        {
+            text += "I ";
+        }
+        
+        lifesText.text = text;
     }
 }
